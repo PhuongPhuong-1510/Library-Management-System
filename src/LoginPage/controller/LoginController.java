@@ -21,6 +21,8 @@ public class LoginController implements ActionListener, MouseListener {
         loginView.getLoginButton().addActionListener(this);
         loginView.getSignupButton().addActionListener(this);
         loginView.getBtnForgot().addActionListener(this);
+        loginView.getAdminCheckBox().addActionListener(this);
+        loginView.getUserCheckBox().addActionListener(this);
 
     }
 
@@ -32,6 +34,15 @@ public class LoginController implements ActionListener, MouseListener {
         } else if ("SIGNUP".equals(command)) {
             System.out.println("Nút Signup được nhấn!");
             loginView.getMainView().showCard("Signup");
+        }
+        if (e.getSource() == loginView.getAdminCheckBox()) {
+            if (loginView.getAdminCheckBox().isSelected()) {
+                loginView.getUserCheckBox().setSelected(false);
+            }
+        } else if (e.getSource() == loginView.getUserCheckBox()) {
+            if (loginView.getUserCheckBox().isSelected()) {
+                loginView.getAdminCheckBox().setSelected(false);
+            }
         }
     }
 
@@ -58,6 +69,13 @@ public class LoginController implements ActionListener, MouseListener {
             loginView.getBtnForgot().repaint();
 
         }
+
+
+
+
+
+
+
     }
 
     @Override

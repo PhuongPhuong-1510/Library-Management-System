@@ -40,11 +40,9 @@ public class SignupController implements ActionListener, MouseListener {
         String command = e.getActionCommand();
 
         if ("LOGIN".equals(command)) {
-            // Khi nhấn nút LOGIN, hiển thị hộp thoại xác nhận
             int response = JOptionPane.showConfirmDialog(signupView, "Do you want to continue?", "Confirmation",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {
-                // Nếu có, chuyển về màn hình đăng nhập
                 signupView.getMainView().showCard("Login");
             }
         } else if ("SIGNUP".equals(command)) {
@@ -134,13 +132,7 @@ public class SignupController implements ActionListener, MouseListener {
             signupView.getLoginButton().repaint(); // Vẽ lại nút
         }
 
-//        else if (e.getSource() == signupView.getCloseButton()) {
-//            // Khôi phục màu khi chuột rời khỏi nút ĐÓNG
-//            signupView.getCloseButton().setBackground(null); // Trả về màu gốc
-//            signupView.getCloseButton().setForeground(Color.WHITE); // Trả về màu chữ gốc
-//            signupView.getCloseButton().revalidate(); // Cập nhật lại layout
-//            signupView.getCloseButton().repaint(); // Vẽ lại nút
-//        }
+
     }
     @Override
     public void mousePressed(MouseEvent e) {

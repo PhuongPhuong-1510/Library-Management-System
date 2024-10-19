@@ -101,12 +101,11 @@ public class MainView extends JFrame {
                 cl.show(cardPanel, "Login"); // Chuyển đến Login
                 break;
             case "Signup":
-                // Kiểm tra xem SignupView đã tồn tại chưa
                 if (cardPanel.getComponentCount() < 2 || !(cardPanel.getComponent(1) instanceof SignupView)) {
                     SignupView signupView = new SignupView(this);
-                    cardPanel.add(signupView, "Signup"); // Thêm SignupView vào cardPanel
+                    cardPanel.add(signupView, "Signup");
                 }
-                cl.show(cardPanel, "Signup"); // Chuyển đến Signup
+                cl.show(cardPanel, "Signup");
                 break;
             default:
                 break;
@@ -124,7 +123,6 @@ public class MainView extends JFrame {
     }
 
     public void showErrorMessages(String errors) {
-        // Xóa thông báo lỗi cũ
         emailErrorLabel.setText("");
         contactErrorLabel.setText("");
         passwordErrorLabel.setText("");

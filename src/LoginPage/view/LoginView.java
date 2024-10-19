@@ -16,12 +16,9 @@ public class LoginView extends JPanel {
     private JButton btnLogin;
     private JButton btnSignUp;
     private JButton btnForgot;
-    private final MainView mainView;
-    private JRadioButton rbUser;
-    private JRadioButton rbAdmin;
-    ButtonGroup roleGroup = new ButtonGroup();
-
-
+    private MainView mainView;
+    private JCheckBox adminCheckBox;
+    private JCheckBox userCheckBox;
 
 
     public LoginView(MainView mainView) {
@@ -111,6 +108,29 @@ public class LoginView extends JPanel {
 
 
 
+        // Tạo JCheckBox cho Admin
+        adminCheckBox = new JCheckBox("Admin");
+        adminCheckBox.setFont(new Font("Tahoma",Font.BOLD,15));
+        adminCheckBox.setBounds(150, 295, 100, 30);
+        adminCheckBox.setBackground(new Color(85, 117, 255)); // Đặt màu nền giống màu của loginPanel
+        adminCheckBox.setForeground(Color.WHITE); // Đặt màu chữ là trắng
+        adminCheckBox.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Đổi con trỏ chuột thành bàn tay khi hover
+        adminCheckBox.setBorderPainted(false); // Xóa viền
+        adminCheckBox.setFocusPainted(false);  // Bỏ viền focus
+        loginPanel.add(adminCheckBox); // Thêm vào loginPanel
+
+// Tạo JCheckBox cho User
+        userCheckBox = new JCheckBox("User");
+        userCheckBox.setFont(new Font("Tahoma",Font.BOLD,15));
+        userCheckBox.setBounds(250, 295, 100, 30);
+        userCheckBox.setBackground(new Color(85, 117, 255)); // Đặt màu nền giống màu của loginPanel
+        userCheckBox.setForeground(Color.WHITE); // Đặt màu chữ là trắng
+        userCheckBox.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Đổi con trỏ chuột thành bàn tay khi hover
+        userCheckBox.setBorderPainted(false); // Xóa viền
+        userCheckBox.setFocusPainted(false);  // Bỏ viền focus
+        loginPanel.add(userCheckBox); // Thêm vào loginPanel
+
+
 
 
 
@@ -121,13 +141,13 @@ public class LoginView extends JPanel {
         this.btnLogin = new OvalButton("LOGIN");
         btnLogin.setBackground(new Color(255, 94, 77));
         btnLogin.setForeground(Color.WHITE);
-        btnLogin.setBounds(120, 320, 100, 30);
+        btnLogin.setBounds(120, 340, 100, 30);
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
         loginPanel.add(btnLogin);
 
         this.btnSignUp = new OvalButton("SIGNUP");
         btnSignUp.setBackground(new Color(192, 192, 192));
-        btnSignUp.setBounds(240, 320, 100, 30);
+        btnSignUp.setBounds(240, 340, 100, 30);
         btnSignUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
         loginPanel.add(btnSignUp);
 
@@ -138,7 +158,7 @@ public class LoginView extends JPanel {
         btnForgot.setContentAreaFilled(false);
         btnForgot.setFocusPainted(false);
         btnForgot.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnForgot.setBounds(120, 370, 250, 60);
+        btnForgot.setBounds(120, 390, 250, 60);
 
         btnForgot.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/LoginPage/view/icon/forgotPassword.png")))); // Thêm icon cho nút
         assert btnForgot != null;
@@ -202,5 +222,19 @@ public class LoginView extends JPanel {
         }
     }
 
+    public JCheckBox getAdminCheckBox() {
+        return adminCheckBox;
+    }
 
+    public void setAdminCheckBox(JCheckBox adminCheckBox) {
+        this.adminCheckBox = adminCheckBox;
+    }
+
+    public JCheckBox getUserCheckBox() {
+        return userCheckBox;
+    }
+
+    public void setUserCheckBox(JCheckBox userCheckBox) {
+        this.userCheckBox = userCheckBox;
+    }
 }
