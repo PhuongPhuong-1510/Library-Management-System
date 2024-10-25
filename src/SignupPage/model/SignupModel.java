@@ -1,7 +1,5 @@
 package SignupPage.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SignupModel {
     private String email;

@@ -1,5 +1,6 @@
 package MainApp.view;
 
+import HomePage.view.HomePageView;
 import LoginPage.view.LoginView;
 import MainApp.controller.MainController;
 import SignupPage.view.SignupView;
@@ -13,10 +14,8 @@ public class MainView extends JFrame {
     private JButton closeButton, minimizeButton;
     private JLayeredPane layeredPane;
     private MainController mainController;
-    private JLabel emailErrorLabel;
-    private JLabel contactErrorLabel;
-    private JLabel passwordErrorLabel;
-    private JLabel confirmPasswordErrorLabel;
+
+
 
     public MainView() {
         this.setSize(1200, 632);
@@ -51,6 +50,7 @@ public class MainView extends JFrame {
         // Thêm các view vào cardPanel
         cardPanel.add(new LoginView(this), "Login");
         cardPanel.add(new SignupView(this), "Signup");
+        cardPanel.add(new HomePageView(this),"HomePage");
 
         // Thêm cardPanel vào lớp thấp hơn trong layeredPane
         layeredPane.add(cardPanel, JLayeredPane.DEFAULT_LAYER);
@@ -101,14 +101,13 @@ public class MainView extends JFrame {
                 cl.show(cardPanel, "Login"); // Chuyển đến Login
                 break;
             case "Signup":
-                if (cardPanel.getComponentCount() < 2 || !(cardPanel.getComponent(1) instanceof SignupView)) {
                     SignupView signupView = new SignupView(this);
                     cardPanel.add(signupView, "Signup");
-                }
                 cl.show(cardPanel, "Signup");
-                break;
-            default:
-                break;
+            case"HomePage":
+                HomePageView homePageView=new HomePageView(this);
+                cardPanel.add(homePageView,"HomePage");
+                cl.show(cardPanel,"HomePage");
         }
     }
 
@@ -120,30 +119,6 @@ public class MainView extends JFrame {
 
     public JButton getMinimizeButton() {
         return minimizeButton;
-    }
-
-    public void showErrorMessages(String errors) {
-        emailErrorLabel.setText("");
-        contactErrorLabel.setText("");
-        passwordErrorLabel.setText("");
-        confirmPasswordErrorLabel.setText("");
-
-        // Phân tích các lỗi
-        String[] errorArray = errors.split("\n");
-        for (String error : errorArray) {
-            if (error.contains("Email")) {
-                emailErrorLabel.setText("!");
-            }
-            if (error.contains("Contact")) {
-                contactErrorLabel.setText("!");
-            }
-            if (error.contains("Password")) {
-                passwordErrorLabel.setText("!");
-            }
-            if (error.contains("Confirm")) {
-                confirmPasswordErrorLabel.setText("!");
-            }
-        }
     }
 
 

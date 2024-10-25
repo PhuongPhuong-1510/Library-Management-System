@@ -17,8 +17,6 @@ public class LoginView extends JPanel {
     private JButton btnSignUp;
     private JButton btnForgot;
     private MainView mainView;
-    private JCheckBox adminCheckBox;
-    private JCheckBox userCheckBox;
 
 
     public LoginView(MainView mainView) {
@@ -108,27 +106,6 @@ public class LoginView extends JPanel {
 
 
 
-        // Tạo JCheckBox cho Admin
-        adminCheckBox = new JCheckBox("Admin");
-        adminCheckBox.setFont(new Font("Tahoma",Font.BOLD,15));
-        adminCheckBox.setBounds(150, 295, 100, 30);
-        adminCheckBox.setBackground(new Color(85, 117, 255)); // Đặt màu nền giống màu của loginPanel
-        adminCheckBox.setForeground(Color.WHITE); // Đặt màu chữ là trắng
-        adminCheckBox.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Đổi con trỏ chuột thành bàn tay khi hover
-        adminCheckBox.setBorderPainted(false); // Xóa viền
-        adminCheckBox.setFocusPainted(false);  // Bỏ viền focus
-        loginPanel.add(adminCheckBox); // Thêm vào loginPanel
-
-// Tạo JCheckBox cho User
-        userCheckBox = new JCheckBox("User");
-        userCheckBox.setFont(new Font("Tahoma",Font.BOLD,15));
-        userCheckBox.setBounds(250, 295, 100, 30);
-        userCheckBox.setBackground(new Color(85, 117, 255)); // Đặt màu nền giống màu của loginPanel
-        userCheckBox.setForeground(Color.WHITE); // Đặt màu chữ là trắng
-        userCheckBox.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Đổi con trỏ chuột thành bàn tay khi hover
-        userCheckBox.setBorderPainted(false); // Xóa viền
-        userCheckBox.setFocusPainted(false);  // Bỏ viền focus
-        loginPanel.add(userCheckBox); // Thêm vào loginPanel
 
 
 
@@ -201,40 +178,8 @@ public class LoginView extends JPanel {
     public MainView getMainView() {
         return mainView;
     }
-    public void resetFields() {
-        txtUserName.setText(""); // Đặt lại tên đăng nhập
-        txtPassWord.setText(""); // Đặt lại mật khẩu
 
-        // Đặt lại thông báo lỗi
-        updateErrorMessages(null, null);
-    }
 
-    public void updateErrorMessages(String emailError, String passwordError) {
-        // Cập nhật thông báo lỗi cho các trường tương ứng
-        txtUserName.setVisible(emailError != null);
-        if (emailError != null) {
-            txtUserName.setToolTipText(emailError); // Hiển thị tooltip khi di chuột
-        }
 
-        txtPassWord.setVisible(passwordError != null);
-        if (passwordError != null) {
-            txtPassWord.setToolTipText(passwordError);
-        }
-    }
 
-    public JCheckBox getAdminCheckBox() {
-        return adminCheckBox;
-    }
-
-    public void setAdminCheckBox(JCheckBox adminCheckBox) {
-        this.adminCheckBox = adminCheckBox;
-    }
-
-    public JCheckBox getUserCheckBox() {
-        return userCheckBox;
-    }
-
-    public void setUserCheckBox(JCheckBox userCheckBox) {
-        this.userCheckBox = userCheckBox;
-    }
 }

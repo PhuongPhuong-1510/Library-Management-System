@@ -276,15 +276,7 @@ public class SignupView extends JPanel {
     }
 
 
-    public void resetFields() {
-        txtUserName.setText(""); // Đặt lại email
-        txtPassWord.setText(""); // Đặt lại mật khẩu
-        txtConfirmPass.setText(""); // Đặt lại mật khẩu xác nhận
-        txtContactNumber.setText(""); // Đặt lại số điện thoại
 
-        // Đặt lại thông báo lỗi
-        updateErrorMessages(null, null, null, null);
-    }
 
 
 

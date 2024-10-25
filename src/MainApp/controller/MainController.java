@@ -46,7 +46,6 @@ public class MainController implements ActionListener {
             }
         });
 
-        // Thêm sự kiện thay đổi màu khi di chuột vào nút Maximize
 
     }
 

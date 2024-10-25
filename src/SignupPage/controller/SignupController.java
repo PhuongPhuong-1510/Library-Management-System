@@ -19,20 +19,12 @@ public class SignupController implements ActionListener, MouseListener {
         this.signupView = signupView;
         this.signupModel = new SignupModel(); // Đảm bảo dòng này không bị bỏ qua
 
-        // Thêm sự kiện MouseListener cho nút LOGIN và SIGNUP
         signupView.getLoginButton().addMouseListener(this);
         signupView.getSignupButton().addMouseListener(this);
-//        signupView.getCloseButton().addMouseListener(this); // Thêm MouseListener cho nút đóng
 
-        // Thêm ActionListener để xử lý sự kiện khi nhấn nút
         signupView.getLoginButton().addActionListener(this);
         signupView.getSignupButton().addActionListener(this);
-//        signupView.getCloseButton().addActionListener(new ActionListener() { // Sự kiện cho nút đóng
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.exit(0); // Đóng ứng dụng
-//            }
-//        });
+
     }
 
     @Override
