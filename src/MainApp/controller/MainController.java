@@ -10,54 +10,58 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainController implements ActionListener {
-    private MainView mainView;
-    private boolean isMaximized = false; // Trạng thái hiện tại của cửa sổ
+    private final MainView mainView;
 
     public MainController(MainView mainView) {
         this.mainView = mainView;
+        initializeButtonListeners();
+        initializeMouseListeners();
+    }
 
-        // Thêm ActionListener cho các nút
+    // Phương thức khởi tạo các ActionListener cho nút
+    private void initializeButtonListeners() {
         mainView.getCloseButton().addActionListener(this);
         mainView.getMinimizeButton().addActionListener(this);
+    }
 
-        // Thêm sự kiện thay đổi màu khi di chuột vào nút Close
-        mainView.getCloseButton().addMouseListener(new MouseAdapter() {
+    // Phương thức khởi tạo các MouseListener cho nút
+    private void initializeMouseListeners() {
+        addMouseHoverEffect(mainView.getCloseButton());
+        addMouseHoverEffect(mainView.getMinimizeButton());
+    }
+
+    // Phương thức thêm hiệu ứng màu khi di chuột
+    private void addMouseHoverEffect(JButton button) {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                mainView.getCloseButton().setBackground(Color.RED); // Đổi màu nền sang đỏ khi di chuột vào
+                button.setBackground(Color.RED);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                mainView.getCloseButton().setBackground(new Color(85, 117, 255)); // Trả về màu nền gốc
+                button.setBackground(new Color(85, 117, 255)); // Trả về màu nền gốc
             }
         });
-
-        // Thêm sự kiện thay đổi màu khi di chuột vào nút Minimize
-        mainView.getMinimizeButton().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                mainView.getMinimizeButton().setBackground(Color.RED); // Đổi màu nền khi di chuột vào
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                mainView.getMinimizeButton().setBackground(new Color(85, 117, 255)); // Trả về màu nền gốc
-            }
-        });
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainView.getCloseButton()) {
-            // Xử lý sự kiện khi nút Close được nhấn
-            System.exit(0); // Đóng ứng dụng
-        } else if (e.getSource() == mainView.getMinimizeButton()) {
-            // Xử lý sự kiện khi nút Minimize được nhấn
-            mainView.setState(JFrame.ICONIFIED); // Thu nhỏ cửa sổ
+        Object source = e.getSource();
+        if (source == mainView.getCloseButton()) {
+            handleClose();
+        } else if (source == mainView.getMinimizeButton()) {
+            handleMinimize();
         }
     }
 
+    // Phương thức xử lý sự kiện đóng ứng dụng
+    private void handleClose() {
+        System.exit(0); // Đóng ứng dụng
     }
+
+    // Phương thức xử lý sự kiện thu nhỏ cửa sổ
+    private void handleMinimize() {
+        mainView.setState(JFrame.ICONIFIED); // Thu nhỏ cửa sổ
+    }
+}

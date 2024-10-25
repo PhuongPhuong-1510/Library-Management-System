@@ -1,148 +1,129 @@
 package SignupPage.controller;
 
 import SignupPage.view.SignupView;
-import java.awt.*;
-import java.awt.event.*;
 import SignupPage.model.SignupModel;
-import SignupPage.view.SignupView;
 
 import javax.swing.*;
-
+import java.awt.*;
+import java.awt.event.*;
 
 public class SignupController implements ActionListener, MouseListener {
 
-    private SignupView signupView;
-    private SignupModel signupModel;
-    private MouseEvent e;
+    private final SignupView signupView;
+    private final SignupModel signupModel;
 
     public SignupController(SignupView signupView) {
         this.signupView = signupView;
-        this.signupModel = new SignupModel(); // Đảm bảo dòng này không bị bỏ qua
+        this.signupModel = new SignupModel();
 
         signupView.getLoginButton().addMouseListener(this);
         signupView.getSignupButton().addMouseListener(this);
-
         signupView.getLoginButton().addActionListener(this);
         signupView.getSignupButton().addActionListener(this);
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 
-        if ("LOGIN".equals(command)) {
-            int response = JOptionPane.showConfirmDialog(signupView, "Do you want to continue?", "Confirmation",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (response == JOptionPane.YES_OPTION) {
-                signupView.getMainView().showCard("Login");
-            }
-        } else if ("SIGNUP".equals(command)) {
-            signupModel.setEmail(signupView.getUserName());
-            signupModel.setPassword(signupView.getPassword());
-            signupModel.setContact(signupView.getContactNumber());
-            signupModel.setConfirmPassword(signupView.getConfirmPassword());
-
-            // Kiểm tra tính hợp lệ
-            String[] errors = signupModel.validateInput();
-
-            // Cập nhật thông báo lỗi trong view
-            signupView.updateErrorMessages(errors[0], errors[1], errors[2], errors[3]);
-
-            // Tạo thông điệp lỗi tổng hợp
-            StringBuilder errorMessage = new StringBuilder("Please correct the following errors:\n");
-            boolean hasErrors = false;
-
-            // Kiểm tra các lỗi và thêm vào thông điệp
-            if (errors[0] != null) {
-                errorMessage.append("- ").append(errors[0]).append("\n");
-                hasErrors = true;
-            }
-            if (errors[1] != null) {
-                errorMessage.append("- ").append(errors[1]).append("\n");
-                hasErrors = true;
-            }
-            if (errors[2] != null) {
-                errorMessage.append("- ").append(errors[2]).append("\n");
-                hasErrors = true;
-            }
-            if (errors[3] != null) {
-                errorMessage.append("- ").append(errors[3]).append("\n");
-                hasErrors = true;
-            }
-
-            // Nếu có lỗi, hiển thị hộp thoại nhắc nhở
-            if (hasErrors) {
-                JOptionPane.showMessageDialog(signupView, errorMessage.toString(), "Error Notification", JOptionPane.ERROR_MESSAGE);
-            }
-
-            // Nếu không có lỗi, hiển thị thông báo thành công
-            if (!hasErrors) {
-                JOptionPane.showMessageDialog(signupView, "Registration Successful!", "Notification", JOptionPane.INFORMATION_MESSAGE);
-                signupView.getMainView().showCard("Login");
-            }
+        switch (command) {
+            case "LOGIN":
+                handleLogin();
+                break;
+            case "SIGNUP":
+                handleSignup();
+                break;
         }
-
     }
 
+    private void handleLogin() {
+        int response = JOptionPane.showConfirmDialog(signupView, "Do you want to continue?", "Confirmation",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            signupView.getMainView().showCard("Login");
+        }
+    }
+
+    private void handleSignup() {
+        gatherInputData();
+        String[] errors = signupModel.validateInput();
+
+        signupView.updateErrorMessages(errors[0], errors[1], errors[2], errors[3]);
+
+        if (hasErrors(errors)) {
+            showErrorMessages(errors);
+        } else {
+            showSuccessMessage();
+            signupView.getMainView().showCard("Login");
+        }
+    }
+
+    private void gatherInputData() {
+        signupModel.setEmail(signupView.getUserName());
+        signupModel.setPassword(signupView.getPassword());
+        signupModel.setContact(signupView.getContactNumber());
+        signupModel.setConfirmPassword(signupView.getConfirmPassword());
+    }
+
+    private boolean hasErrors(String[] errors) {
+        for (String error : errors) {
+            if (error != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void showErrorMessages(String[] errors) {
+        StringBuilder errorMessage = new StringBuilder("Please correct the following errors:\n");
+        for (String error : errors) {
+            if (error != null) {
+                errorMessage.append("- ").append(error).append("\n");
+            }
+        }
+        JOptionPane.showMessageDialog(signupView, errorMessage.toString(), "Error Notification", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showSuccessMessage() {
+        JOptionPane.showMessageDialog(signupView, "Registration Successful!", "Notification", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (e.getSource() == signupView.getSignupButton()) {
-            // Đổi màu khi di chuột vào nút LOGIN
-            signupView.getSignupButton().setBackground(new Color(255, 50, 0)); // Màu đỏ đậm hơn
-            signupView.getSignupButton().setPreferredSize(new Dimension(120, 40)); // Kích thước lớn hơn
-            signupView.getSignupButton().setFont(new Font("Tahoma", Font.PLAIN, 14)); // Giảm kích thước phông chữ
-            signupView.getSignupButton().revalidate(); // Cập nhật lại layout
-            signupView.getSignupButton().repaint(); // Vẽ lại nút
-        } else if (e.getSource() == signupView.getLoginButton()) {
-            // Đổi màu khi di chuột vào nút SIGNUP
-            signupView.getLoginButton().setBackground(new Color(192, 192, 192)); // Màu xám đậm hơn
-            signupView.getLoginButton().setPreferredSize(new Dimension(120, 40)); // Kích thước lớn hơn
-            signupView.getLoginButton().setFont(new Font("Tahoma", Font.PLAIN, 14)); // Giảm kích thước phông chữ
-            signupView.getLoginButton().revalidate(); // Cập nhật lại layout
-            signupView.getLoginButton().repaint(); // Vẽ lại nút
-        }
-
+        JButton sourceButton = (JButton) e.getSource();
+        setButtonHoverProperties(sourceButton, true);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == signupView.getSignupButton()) {
-            // Khôi phục màu và kích thước ban đầu khi chuột rời khỏi nút LOGIN
-            signupView.getSignupButton().setBackground(new Color(255, 0, 0)); // Màu đỏ
-            signupView.getSignupButton().setPreferredSize(new Dimension(100, 30)); // Kích thước ban đầu
-            signupView.getSignupButton().setFont(new Font("Tahoma", 1, 16)); // Kích thước phông chữ ban đầu
-            signupView.getSignupButton().revalidate(); // Cập nhật lại layout
-            signupView.getSignupButton().repaint(); // Vẽ lại nút
-        } else if (e.getSource() == signupView.getLoginButton()) {
-            // Khôi phục màu và kích thước ban đầu khi chuột rời khỏi nút SIGNUP
-            signupView.getLoginButton().setBackground(new Color(211, 211, 211)); // Màu xám nhạt
-            signupView.getLoginButton().setPreferredSize(new Dimension(100, 30)); // Kích thước ban đầu
-            signupView.getLoginButton().setFont(new Font("Tahoma", 1, 16)); // Kích thước phông chữ ban đầu
-            signupView.getLoginButton().revalidate(); // Cập nhật lại layout
-            signupView.getLoginButton().repaint(); // Vẽ lại nút
-        }
-
-
+        JButton sourceButton = (JButton) e.getSource();
+        setButtonHoverProperties(sourceButton, false);
     }
+
+    private void setButtonHoverProperties(JButton button, boolean isHovered) {
+        Color hoverColor = isHovered ? new Color(255, 50, 0) : (button == signupView.getLoginButton() ? new Color(211, 211, 211) : new Color(255, 0, 0));
+        Dimension size = isHovered ? new Dimension(120, 40) : new Dimension(100, 30);
+        Font font = isHovered ? new Font("Tahoma", Font.PLAIN, 14) : new Font("Tahoma", Font.BOLD, 16);
+
+        button.setBackground(hoverColor);
+        button.setPreferredSize(size);
+        button.setFont(font);
+        button.revalidate();
+        button.repaint();
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
-        this.e=e;
+        // Optional: Có thể xử lý logic khi nút được nhấn
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
         // Optional: Có thể xử lý logic khi nút được nhấp vào
     }
 
-
-
     @Override
     public void mouseReleased(MouseEvent e) {
         // Optional: Xử lý khi nhả nút
     }
-
-
 }

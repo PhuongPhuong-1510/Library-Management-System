@@ -1,115 +1,105 @@
 package LoginPage.controller;
 
 import LoginPage.view.LoginView;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
-
 public class LoginController implements ActionListener, MouseListener {
-
-    private LoginView loginView;
-    private MouseEvent e;
+    private final LoginView loginView;
 
     public LoginController(LoginView loginView) {
         this.loginView = loginView;
-        loginView.getLoginButton().addMouseListener(this);
-        loginView.getSignupButton().addMouseListener(this);
-        loginView.getBtnForgot().addMouseListener(this);
+        initializeListeners();
+    }
 
-
+    private void initializeListeners() {
         loginView.getLoginButton().addActionListener(this);
         loginView.getSignupButton().addActionListener(this);
         loginView.getBtnForgot().addActionListener(this);
 
+        loginView.getLoginButton().addMouseListener(this);
+        loginView.getSignupButton().addMouseListener(this);
+        loginView.getBtnForgot().addMouseListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if ("LOGIN".equals(command)) {
-            System.out.println("Nút Login được nhấn!");
-            loginView.getMainView().showCard("HomePage");
-
-
-
-        } else if ("SIGNUP".equals(command)) {
-            System.out.println("Nút Signup được nhấn!");
-            loginView.getMainView().showCard("Signup");
+        switch (e.getActionCommand()) {
+            case "LOGIN":
+                System.out.println("Login button clicked!");
+                loginView.getMainView().showCard("HomePage");
+                break;
+            case "SIGNUP":
+                System.out.println("Signup button clicked!");
+                loginView.getMainView().showCard("Signup");
+                break;
+            default:
+                break;
         }
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == loginView.getLoginButton()) {
-            loginView.getLoginButton().setBackground(new Color(255, 50, 0));
-            loginView.getLoginButton().setPreferredSize(new Dimension(120, 40));
-            loginView.getLoginButton().setFont(new Font("Tahoma", Font.PLAIN, 14));
-            loginView.getLoginButton().revalidate(); // Cập nhật lại layout
-            loginView.getLoginButton().repaint(); // Vẽ lại nút
+            styleButtonHover(loginView.getLoginButton(), new Color(255, 50, 0), 120, 40, Font.PLAIN, 14);
         } else if (e.getSource() == loginView.getSignupButton()) {
-
-            loginView.getSignupButton().setBackground(new Color(192, 192, 192));
-            loginView.getSignupButton().setPreferredSize(new Dimension(120, 40));
-            loginView.getSignupButton().setFont(new Font("Tahoma", Font.PLAIN, 14));
-            loginView.getSignupButton().revalidate();
-            loginView.getSignupButton().repaint();
+            styleButtonHover(loginView.getSignupButton(), new Color(192, 192, 192), 120, 40, Font.PLAIN, 14);
         } else if (e.getSource() == loginView.getBtnForgot()) {
-            loginView.getBtnForgot().setFont(new Font("Tahoma", Font.BOLD, 15)); // Đổi kiểu chữ để thêm gạch chân
-            loginView.getBtnForgot().setText("<html><u>Forgot Password</u></html>"); // Thêm gạch chân
-            loginView.getBtnForgot().setBounds(loginView.getBtnForgot().getX(), loginView.getBtnForgot().getY() - 2, loginView.getBtnForgot().getWidth(), loginView.getBtnForgot().getHeight() + 2); // Tăng kích thước nút
-            loginView.getBtnForgot().revalidate();
-            loginView.getBtnForgot().repaint();
-
+            styleForgotButtonHover();
         }
-
-
-
-
-
-
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == loginView.getLoginButton()) {
-            loginView.getLoginButton().setBackground(new Color(255, 0, 0));
-            loginView.getLoginButton().setPreferredSize(new Dimension(100, 30));
-            loginView.getLoginButton().setFont(new Font("Tahoma", 1, 16));
-            loginView.getLoginButton().revalidate();
-            loginView.getLoginButton().repaint();
+            styleButtonHover(loginView.getLoginButton(), new Color(255, 0, 0), 100, 30, Font.BOLD, 16);
         } else if (e.getSource() == loginView.getSignupButton()) {
-            loginView.getSignupButton().setBackground(new Color(211, 211, 211));
-            loginView.getSignupButton().setPreferredSize(new Dimension(100, 30));
-            loginView.getSignupButton().setFont(new Font("Tahoma", 1, 16));
-            loginView.getSignupButton().revalidate();
-            loginView.getSignupButton().repaint();
+            styleButtonHover(loginView.getSignupButton(), new Color(211, 211, 211), 100, 30, Font.BOLD, 16);
         } else if (e.getSource() == loginView.getBtnForgot()) {
-            loginView.getBtnForgot().setFont(new Font("Tahoma", Font.PLAIN, 14));
-            loginView.getBtnForgot().setForeground(Color.WHITE);
-            loginView.getBtnForgot().setText("Forgot Password");
-            loginView.getBtnForgot().setBounds(loginView.getBtnForgot().getX(), loginView.getBtnForgot().getY() + 2, loginView.getBtnForgot().getWidth(), loginView.getBtnForgot().getHeight() - 2);
-            loginView.getBtnForgot().revalidate();
-            loginView.getBtnForgot().repaint();
-
-
+            resetForgotButtonStyle();
         }
     }
-    @Override
-    public void mousePressed(MouseEvent e) {
-        this.e=e;
+
+    private void styleButtonHover(JButton button, Color background, int width, int height, int fontStyle, int fontSize) {
+        button.setBackground(background);
+        button.setPreferredSize(new Dimension(width, height));
+        button.setFont(new Font("Tahoma", fontStyle, fontSize));
+        button.revalidate();
+        button.repaint();
     }
 
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    private void styleForgotButtonHover() {
+        loginView.getBtnForgot().setFont(new Font("Tahoma", Font.BOLD, 15));
+        loginView.getBtnForgot().setText("<html><u>Forgot Password</u></html>");
+        adjustButtonSize(loginView.getBtnForgot(), -2, 2);
     }
 
+    private void resetForgotButtonStyle() {
+        loginView.getBtnForgot().setFont(new Font("Tahoma", Font.PLAIN, 14));
+        loginView.getBtnForgot().setText("Forgot Password");
+        loginView.getBtnForgot().setForeground(Color.WHITE);
+        adjustButtonSize(loginView.getBtnForgot(), 2, -2);
+    }
 
+    private void adjustButtonSize(JButton button, int yAdjust, int heightAdjust) {
+        button.setBounds(
+                button.getX(),
+                button.getY() + yAdjust,
+                button.getWidth(),
+                button.getHeight() + heightAdjust
+        );
+        button.revalidate();
+        button.repaint();
+    }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
 }
